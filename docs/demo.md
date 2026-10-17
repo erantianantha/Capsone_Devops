@@ -11,13 +11,8 @@ so you can see the update happen in the browser.
    - GitHub → repo → *Settings → Actions → Runners → New self-hosted runner* (macOS), follow the commands.
    - The runner needs `kubectl` and `helm` on `PATH`, and `kubectl config current-context` must be `kind-pantrypal`.
 3. **Enable the deploy job**: *Settings → Secrets and variables → Actions → Variables* → `DEPLOY_ENABLED = true`.
-4. **Let the cluster pull from GHCR**. Either:
-   - make both packages public (*Packages → pantrypal-backend / pantrypal-frontend → Package settings → Change visibility*), or
-   - create a pull secret and pass `--set imagePullSecrets[0].name=ghcr-pull`:
-     ```bash
-     kubectl -n pantrypal create secret docker-registry ghcr-pull \
-       --docker-server=ghcr.io --docker-username=<github-user> --docker-password=<PAT with read:packages>
-     ```
+4. **GHCR access**: nothing to do. Both packages (`pantrypal-backend`, `pantrypal-frontend`) are public, so
+   the cluster pulls `ghcr.io/erantianantha/pantrypal-*:<sha>` without a pull secret.
 
 ## Demo script (≈5 minutes)
 

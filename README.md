@@ -11,6 +11,7 @@ AWS, Kubernetes with Helm, and Prometheus + Grafana monitoring.
 ![PantryPal running in Kubernetes behind the Ingress](docs/screenshots/m8-app-via-ingress.png)
 
 **Presentation:** [`PantryPal-Presentation.pptx`](PantryPal-Presentation.pptx) &nbsp;·&nbsp;
+**Video walkthrough (2½ min):** [`docs/video/pantrypal-walkthrough.mp4`](docs/video/pantrypal-walkthrough.mp4) &nbsp;·&nbsp;
 **Evidence index:** [`docs/submission.md`](docs/submission.md) &nbsp;·&nbsp;
 **Live demo script:** [`docs/demo.md`](docs/demo.md)
 
@@ -93,6 +94,7 @@ flowchart LR
 ├── monitoring/              prometheus-values.yaml, grafana-values.yaml, dashboards/pantrypal-api.json
 ├── scripts/                 setup-local-cluster.sh, generate-traffic.sh
 ├── docs/                    screenshots/, evidence/, security-scan.md, demo.md, submission.md
+├── docs/video/              pantrypal-walkthrough.mp4 — narrated 2½-minute project walkthrough
 └── PantryPal-Presentation.pptx
 ```
 
@@ -139,6 +141,10 @@ the backend container runs on start-up. A Postgres advisory lock makes this safe
 | `/health` | `/ready` |
 |---|---|
 | ![health](docs/screenshots/m1-backend-health.png) | ![ready](docs/screenshots/m1-backend-ready.png) |
+
+`GET /api/items` (JSON straight from PostgreSQL):
+
+![api items](docs/screenshots/m1-backend-api-items.png)
 
 `/metrics` in the browser:
 
@@ -237,6 +243,12 @@ pytest -v        # 19 tests
 - `.gitignore` excludes `.env`, `__pycache__/`, `node_modules/`, `.venv/`, Terraform state and `terraform.tfvars`.
 - No credentials are in the repo. A Trivy secret scan of the repo is clean.
 
+| GitHub repository | Commit history on GitHub |
+|---|---|
+| ![repo](docs/screenshots/m3-github-repo.png) | ![commits](docs/screenshots/m3-github-commits.png) |
+
+`git log`:
+
 ![Commit history](docs/screenshots/m3-commit-history.png)
 
 ---
@@ -276,13 +288,31 @@ Browser at `http://localhost:3000`:
 | 3 | **Deploy to kind** | Creates a throwaway kind cluster on the runner, pulls the new SHA images, installs Traefik + the Helm chart, and **smoke-tests through the Ingress**: health returns the new SHA, POST then GET an item, frontend serves HTML |
 | 4 | Deploy to persistent cluster *(optional)* | Same Helm upgrade on a self-hosted runner, for the live demo. Enabled with `DEPLOY_ENABLED=true` |
 
-Green pipeline run:
+Green pipeline run. Every job passed: test → build → Trivy → push → deploy to kind:
 
 ![GitHub Actions run](docs/screenshots/m5-github-actions-run.png)
 
-Images in GHCR, tagged with the commit SHA:
+| pytest in CI | Push to GHCR with the SHA tag |
+|---|---|
+| ![pytest in CI](docs/screenshots/m5-pipeline-pytest.png) | ![push](docs/screenshots/m5-pipeline-push-ghcr.png) |
 
-![GHCR packages](docs/screenshots/m5-ghcr-packages.png)
+Deploy stage: Helm install on kind, smoke test through the Ingress, cluster state:
+
+![deploy to kind](docs/screenshots/m5-pipeline-deploy-kind-smoke-test.png)
+
+Images in GHCR, tagged with commit SHAs (never `latest`). The packages are public:
+
+| Packages | `pantrypal-backend` versions |
+|---|---|
+| ![GHCR packages](docs/screenshots/m5-ghcr-packages.png) | ![backend package](docs/screenshots/m5-ghcr-package-backend.png) |
+
+`pantrypal-frontend` versions:
+
+![frontend package](docs/screenshots/m5-ghcr-package-frontend.png)
+
+All workflow runs:
+
+![runs](docs/screenshots/m5-github-actions-history.png)
 
 ---
 
@@ -442,6 +472,9 @@ Demo: **commit a change → watch the pipeline → see the deployment update.** 
 to the new commit SHA:
 
 ![helm history](docs/screenshots/m10-helm-history-rollout.png)
+
+A narrated video walkthrough of the whole project (app → API → GitHub → CI/CD → GHCR → Trivy → Terraform →
+Kubernetes → Prometheus → Grafana) is in [`docs/video/pantrypal-walkthrough.mp4`](docs/video/pantrypal-walkthrough.mp4).
 
 Cleanup:
 

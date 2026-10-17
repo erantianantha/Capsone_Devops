@@ -27,7 +27,7 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 | Requirement | Evidence |
 |---|---|
 | Repository URL | <https://github.com/erantianantha/Capsone_Devops> |
-| Commit history (≥10 meaningful commits) | `m3-commit-history.png` |
+| Commit history (≥10 meaningful commits) | `m3-commit-history.png`, `m3-github-commits.png`, `m3-github-repo.png` |
 | `.gitignore` (`.env`, `__pycache__`, `node_modules`, `.venv`, tfstate…) | `.gitignore` |
 
 ## M4 — Docker
@@ -42,8 +42,8 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 | Requirement | Evidence |
 |---|---|
 | Workflow | `.github/workflows/ci-cd.yml` |
-| Green pipeline run (test → build → Trivy → push → deploy to kind) | `m5-github-actions-run.png` + run URL in the submission form |
-| GHCR packages with SHA tags | `m5-ghcr-packages.png` |
+| Green pipeline run (test → build → Trivy → push → deploy to kind) | `m5-github-actions-run.png`, `m5-pipeline-pytest.png`, `m5-pipeline-push-ghcr.png`, `m5-pipeline-deploy-kind-smoke-test.png`, `m5-github-actions-history.png`. Run URL: <https://github.com/erantianantha/Capsone_Devops/actions/runs/39016573805> |
+| GHCR packages with SHA tags (public) | `m5-ghcr-packages.png`, `m5-ghcr-package-backend.png`, `m5-ghcr-package-frontend.png` |
 
 ## M6 — DevSecOps
 | Requirement | Evidence |
@@ -89,3 +89,4 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 | Presentation | `PantryPal-Presentation.pptx` (repo root) |
 | Rollout history | `m10-helm-history-rollout.png` |
 | Live demo script | [demo.md](demo.md) |
+| Recorded walkthrough (bonus) | `docs/video/pantrypal-walkthrough.mp4` |
