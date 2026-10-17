@@ -35,6 +35,20 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        # Wait for PostgreSQL so migrations don't crash-loop on first install
+        - name: wait-for-db
+          image: {{ .Values.postgresql.image }}
+          command: ["sh", "-c", "until pg_isready -h {{ include "pantrypal.dbHost" . }} -p {{ .Values.externalDatabase.port }}; do echo waiting for database; sleep 2; done"]
+          securityContext:
+            runAsUser: 70
+            {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 32Mi
       containers:
         - name: backend
           image: {{ include "pantrypal.image" (dict "image" .Values.backend.image "component" "backend") }}
