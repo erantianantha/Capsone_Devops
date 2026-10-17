@@ -1,0 +1,39 @@
+# Secrets / env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.db
+.ruff_cache/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan
+terraform.tfvars
+crash.log
+
+# Kubernetes / Helm
+helm/**/charts/*.tgz
+kubeconfig*
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
