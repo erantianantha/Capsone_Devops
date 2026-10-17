@@ -7,10 +7,19 @@ so you can see the update happen in the browser.
 ## One-time setup
 
 1. **Local cluster running**: `scripts/setup-local-cluster.sh`
-2. **Self-hosted runner** on the machine that runs the kind cluster, so the `deploy` job can reach it:
-   - GitHub → repo → *Settings → Actions → Runners → New self-hosted runner* (macOS), follow the commands.
-   - The runner needs `kubectl` and `helm` on `PATH`, and `kubectl config current-context` must be `kind-pantrypal`.
-3. **Enable the deploy job**: *Settings → Secrets and variables → Actions → Variables* → `DEPLOY_ENABLED = true`.
+2. **Self-hosted runner** on the machine that runs the kind cluster, so the `deploy` job can reach it.
+   Register it as **ephemeral**, so it runs one job and then removes itself. That matters on a public repo:
+   ```bash
+   mkdir -p ~/actions-runner && cd ~/actions-runner
+   curl -sL -o runner.tar.gz https://github.com/actions/runner/releases/download/v2.338.0/actions-runner-osx-arm64-2.338.0.tar.gz
+   tar xzf runner.tar.gz
+   TOKEN=$(gh api -X POST repos/erantianantha/Capsone_Devops/actions/runners/registration-token --jq .token)
+   ./config.sh --unattended --ephemeral --url https://github.com/erantianantha/Capsone_Devops --token "$TOKEN" --name demo-mac
+   ./run.sh          # leave running; it exits after the deploy job
+   ```
+   The runner needs `kubectl` and `helm` on `PATH`, and `kubectl config current-context` must be `kind-pantrypal`.
+3. **Enable the deploy job**: `gh variable set DEPLOY_ENABLED -b true` (or *Settings → Secrets and variables → Actions → Variables*).
+   Afterwards, `gh variable delete DEPLOY_ENABLED`, so later pushes don't wait for a runner that isn't there.
 4. **GHCR access**: nothing to do. Both packages (`pantrypal-backend`, `pantrypal-frontend`) are public, so
    the cluster pulls `ghcr.io/erantianantha/pantrypal-*:<sha>` without a pull secret.
 
@@ -21,7 +30,7 @@ so you can see the update happen in the browser.
 kubectl get pods -n pantrypal -w
 
 # terminal 2: make a visible change
-sed -i '' "s/Know what's in your kitchen before it goes off./Track it. Eat it. Waste less./" frontend/src/App.jsx
+sed -i '' "s/Track it. Eat it. Waste less./Fresh food, less waste./" frontend/src/App.jsx   # any visible change
 git commit -am "Update PantryPal tagline on the dashboard header"
 git push origin main
 gh run watch            # or open the Actions tab

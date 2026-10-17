@@ -11,6 +11,7 @@ AWS, Kubernetes with Helm, and Prometheus + Grafana monitoring.
 ![PantryPal running in Kubernetes behind the Ingress](docs/screenshots/m8-app-via-ingress.png)
 
 **Presentation:** [`PantryPal-Presentation.pptx`](PantryPal-Presentation.pptx) &nbsp;·&nbsp;
+**Live rollout recording:** [`docs/video/pantrypal-live-rollout.mp4`](docs/video/pantrypal-live-rollout.mp4) &nbsp;·&nbsp;
 **Video walkthrough (2½ min):** [`docs/video/pantrypal-walkthrough.mp4`](docs/video/pantrypal-walkthrough.mp4) &nbsp;·&nbsp;
 **Evidence index:** [`docs/submission.md`](docs/submission.md) &nbsp;·&nbsp;
 **Live demo script:** [`docs/demo.md`](docs/demo.md)
@@ -94,7 +95,7 @@ flowchart LR
 ├── monitoring/              prometheus-values.yaml, grafana-values.yaml, dashboards/pantrypal-api.json
 ├── scripts/                 setup-local-cluster.sh, generate-traffic.sh
 ├── docs/                    screenshots/, evidence/, security-scan.md, demo.md, submission.md
-├── docs/video/              pantrypal-walkthrough.mp4 — narrated 2½-minute project walkthrough
+├── docs/video/              pantrypal-live-rollout.mp4 (commit → pipeline → rollout), pantrypal-walkthrough.mp4
 └── PantryPal-Presentation.pptx
 ```
 
@@ -467,13 +468,24 @@ Grafana *PantryPal API* dashboard with live data:
 
 ## 14. Live demo (M10) and cleanup
 
-Demo: **commit a change → watch the pipeline → see the deployment update.** Full script in
-[docs/demo.md](docs/demo.md). Every rollout shows up in `helm history`, and the build badge in the UI changes
-to the new commit SHA:
+Demo: **commit a change → watch the pipeline → see the deployment update.** This was recorded for real. The tagline
+change in commit `5381442` was pushed to `main`. GitHub Actions tested, built, scanned and pushed the images, deployed
+them to a fresh kind cluster, then rolled them out to the persistent cluster through a self-hosted runner. No manual
+steps were needed.
 
-![helm history](docs/screenshots/m10-helm-history-rollout.png)
+▶ **Recording (64 s):** [`docs/video/pantrypal-live-rollout.mp4`](docs/video/pantrypal-live-rollout.mp4)
 
-A narrated video walkthrough of the whole project (app → API → GitHub → CI/CD → GHCR → Trivy → Terraform →
+The pipeline run with all six jobs green, including *Deploy to persistent cluster (self-hosted)*:
+
+![run with rollout](docs/screenshots/m10-pipeline-run-with-rollout.png)
+
+| After the rollout: new tagline, build `5381442` | `helm history`: revision 5 deployed by the pipeline |
+|---|---|
+| ![app after](docs/screenshots/m10-app-after-rollout.png) | ![helm history](docs/screenshots/m10-helm-history-rollout.png) |
+
+Step-by-step instructions to repeat it live are in [docs/demo.md](docs/demo.md).
+
+A narrated walkthrough of the whole project (app → API → GitHub → CI/CD → GHCR → Trivy → Terraform →
 Kubernetes → Prometheus → Grafana) is in [`docs/video/pantrypal-walkthrough.mp4`](docs/video/pantrypal-walkthrough.mp4).
 
 Cleanup:

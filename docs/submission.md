@@ -87,6 +87,6 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 |---|---|
 | README (all screenshots embedded) | `README.md` |
 | Presentation | `PantryPal-Presentation.pptx` (repo root) |
-| Rollout history | `m10-helm-history-rollout.png` |
+| Recorded live demo: commit → pipeline → rollout | `docs/video/pantrypal-live-rollout.mp4`, `m10-pipeline-run-with-rollout.png`, `m10-app-after-rollout.png`, `m10-helm-history-rollout.png`. Run: <https://github.com/erantianantha/Capsone_Devops/actions/runs/39018865952> |
 | Live demo script | [demo.md](demo.md) |
 | Recorded walkthrough (bonus) | `docs/video/pantrypal-walkthrough.mp4` |
