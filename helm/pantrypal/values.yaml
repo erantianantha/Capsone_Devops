@@ -21,8 +21,10 @@ backend:
     limits:
       memory: 256Mi
   metrics:
-    # Pod annotations picked up by Prometheus' kubernetes-pods scrape job
-    scrape: true
+    # Adds prometheus.io/* pod annotations for annotation-based scrape jobs.
+    # Off by default: monitoring/prometheus-values.yaml has a dedicated
+    # "pantrypal-backend" job that selects pods by label (avoids double scraping).
+    scrape: false
     path: /metrics
 
 frontend:

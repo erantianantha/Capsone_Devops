@@ -1,0 +1,58 @@
+# grafana/grafana chart.
+# The admin password comes from the "grafana-admin" Secret (created by scripts/setup-local-cluster.sh),
+# so no credentials live in Git. The dashboard JSON is passed with:
+#   --set-file 'dashboards.default.pantrypal-api.json=monitoring/dashboards/pantrypal-api.json'
+
+admin:
+  existingSecret: grafana-admin
+  userKey: admin-user
+  passwordKey: admin-password
+
+persistence:
+  enabled: false
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    memory: 384Mi
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  hosts:
+    - grafana.localtest.me
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        uid: prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus-server.monitoring.svc.cluster.local
+        isDefault: true
+        jsonData:
+          timeInterval: 15s
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: default
+        orgId: 1
+        folder: PantryPal
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+grafana.ini:
+  analytics:
+    check_for_updates: false
+    reporting_enabled: false
+  dashboards:
+    default_home_dashboard_path: /var/lib/grafana/dashboards/default/pantrypal-api.json
