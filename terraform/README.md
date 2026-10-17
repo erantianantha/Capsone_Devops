@@ -4,10 +4,12 @@ Provisions the AWS infrastructure for PantryPal:
 
 | File | What it creates |
 |------|-----------------|
-| `vpc.tf` | VPC, 2 public subnets + 2 private subnets across 2 AZs, Internet Gateway, NAT Gateway, route tables |
-| `iam.tf` | EKS control-plane role and worker-node role with the AWS-managed EKS policies |
-| `eks.tf` | EKS cluster (Kubernetes 1.34) and a managed node group (2 × t3.medium, scales 1–3) |
+| `main.tf` (networking) | VPC, 2 public subnets + 2 private subnets across 2 AZs, Internet Gateway, NAT Gateway, route tables |
+| `main.tf` (IAM) | EKS control-plane role and worker-node role with the AWS-managed EKS policies |
+| `main.tf` (EKS) | EKS cluster (Kubernetes 1.34) and a managed node group (2 × t3.medium, scales 1–3) |
 | `outputs.tf` | VPC/subnet IDs, cluster name/endpoint/status, `aws eks update-kubeconfig` command |
+| `variables.tf` | All inputs with defaults (region, CIDRs, AZs, node sizes, mock endpoint) |
+| `versions.tf` | Terraform + AWS provider versions and the provider configuration |
 
 ## Running against mock AWS (default for this project)
 
