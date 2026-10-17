@@ -1,0 +1,38 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "pantrypal.fullname" . }}
+  labels:
+    {{- include "pantrypal.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- with .Values.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.host | quote }}
+      http:
+        paths:
+          # /api -> FastAPI backend
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "pantrypal.fullname" . }}-backend
+                port:
+                  name: http
+          # / -> React frontend (nginx)
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "pantrypal.fullname" . }}-frontend
+                port:
+                  name: http
+{{- end }}

@@ -1,0 +1,8 @@
+PantryPal {{ .Values.backend.image.tag | trunc 7 }} deployed to namespace {{ .Release.Namespace }}.
+
+  App:      http://{{ .Values.ingress.host }}/
+  API:      http://{{ .Values.ingress.host }}/api/items
+  Health:   http://{{ .Values.ingress.host }}/api/health
+
+Check status:
+  kubectl get pods,svc,ingress -n {{ .Release.Namespace }}
