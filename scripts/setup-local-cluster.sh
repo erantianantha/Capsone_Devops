@@ -38,6 +38,7 @@ done
 
 step "PantryPal (Helm)"
 helm upgrade --install pantrypal ./helm/pantrypal -n pantrypal \
+  -f helm/pantrypal/values-dev.yaml \
   --set "backend.image.repository=${REPO}/pantrypal-backend" \
   --set "frontend.image.repository=${REPO}/pantrypal-frontend" \
   --set "backend.image.tag=${TAG}" \

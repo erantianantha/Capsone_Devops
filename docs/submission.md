@@ -14,11 +14,12 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 | Frontend source | `frontend/` |
 | Stack definition | `docker-compose.yml` |
 | App running in browser | `m1-app-browser-localhost-3000.png`, `m1-app-mobile-view.png` (responsive layout) |
+| Backend endpoints | `m1-backend-swagger-docs.png`, `m1-backend-swagger-try-it-out.png`, `m1-backend-health.png`, `m1-backend-ready.png`, `m1-backend-metrics-browser.png`, `m1-api-crud-curl.png` |
 
 ## M2 — Testing
 | Requirement | Evidence |
 |---|---|
-| Tests (17 cases across 7 endpoints) | `backend/tests/` |
+| Tests (19 cases across 8 endpoints) | `backend/tests/` |
 | Config | `backend/pytest.ini`, `backend/tests/conftest.py` (SQLite test DB via dependency override) |
 | `pytest -v` passing | `m2-pytest-passing.png` |
 
@@ -41,7 +42,7 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 | Requirement | Evidence |
 |---|---|
 | Workflow | `.github/workflows/ci-cd.yml` |
-| Green pipeline run | `m5-github-actions-run.png` + run URL in the submission form |
+| Green pipeline run (test → build → Trivy → push → deploy to kind) | `m5-github-actions-run.png` + run URL in the submission form |
 | GHCR packages with SHA tags | `m5-ghcr-packages.png` |
 
 ## M6 — DevSecOps
@@ -54,7 +55,7 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 ## M7 — Terraform (mock AWS via moto)
 | Requirement | Evidence |
 |---|---|
-| HCL files | `terraform/*.tf`, `terraform/terraform.tfvars.example` |
+| HCL files | `terraform/main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`, `terraform.tfvars.example` |
 | `terraform init` | `m7-terraform-init.png` |
 | `terraform plan` (25 to add) | `m7-terraform-plan.png`, `m7-terraform-plan-resources.png` |
 | `terraform apply` | `m7-terraform-apply.png` |
@@ -84,5 +85,7 @@ real command output. The raw Terraform output is kept in [`docs/evidence/`](evid
 ## M10 — Documentation + demo
 | Requirement | Evidence |
 |---|---|
-| README | `README.md` |
+| README (all screenshots embedded) | `README.md` |
+| Presentation | `PantryPal-Presentation.pptx` (repo root) |
+| Rollout history | `m10-helm-history-rollout.png` |
 | Live demo script | [demo.md](demo.md) |

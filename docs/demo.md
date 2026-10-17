@@ -36,10 +36,12 @@ What to point out while it runs:
 
 1. **Backend lint + pytest** and **Frontend build** run in parallel. A failing test would stop everything here.
 2. **Image (backend/frontend)**: build → **Trivy** scan (table in the log and step summary) → push to GHCR as `:<commit-sha>`.
-3. **Deploy**: `helm upgrade --install … --set *.image.tag=<sha>`. In terminal 1, new pods start while
-   old ones terminate (`maxUnavailable: 0`, so there's no downtime).
-4. Refresh <http://pantrypal.localtest.me>. The new tagline appears, and the build badge shows the new short SHA.
-5. `helm history pantrypal -n pantrypal` shows the new revision. Grafana keeps showing traffic throughout the rollout.
+3. **Deploy to kind cluster**: CI creates a fresh kind cluster, installs the chart with the new SHA and
+   smoke-tests it through the Ingress. This proves the commit is deployable.
+4. **Deploy to persistent cluster**: the self-hosted runner runs `helm upgrade --install … --set *.image.tag=<sha>`.
+   In terminal 1, new pods start while old ones terminate (`maxUnavailable: 0`, so there's no downtime).
+5. Refresh <http://pantrypal.localtest.me>. The new tagline appears, and the build badge shows the new short SHA.
+6. `helm history pantrypal -n pantrypal` shows the new revision. Grafana keeps showing traffic throughout the rollout.
 
 ## Fallback without a self-hosted runner
 
