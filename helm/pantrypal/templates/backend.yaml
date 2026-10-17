@@ -7,7 +7,9 @@ metadata:
     {{- include "pantrypal.labels" . | nindent 4 }}
     {{- include "pantrypal.selectorLabels" $sel | nindent 4 }}
 spec:
+  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.backend.replicaCount }}
+  {{- end }}
   revisionHistoryLimit: 5
   strategy:
     type: RollingUpdate
@@ -80,9 +82,10 @@ spec:
             failureThreshold: 40
           readinessProbe:
             httpGet:
-              path: /health
+              path: /ready     # checks the DB connection too
               port: http
             periodSeconds: 10
+            failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /health

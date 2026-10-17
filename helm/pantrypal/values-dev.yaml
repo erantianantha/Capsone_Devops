@@ -1,0 +1,11 @@
+# Local / CI (kind) overrides:  helm upgrade --install ... -f helm/pantrypal/values-dev.yaml
+backend:
+  replicaCount: 2
+frontend:
+  replicaCount: 2
+postgresql:
+  storage: 1Gi
+ingress:
+  host: pantrypal.localtest.me
+autoscaling:
+  enabled: false

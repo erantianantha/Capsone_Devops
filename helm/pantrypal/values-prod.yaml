@@ -1,0 +1,23 @@
+# EKS overrides:  helm upgrade --install ... -f helm/pantrypal/values-prod.yaml
+# Assumes metrics-server is installed and an ingress controller fronted by an AWS load balancer.
+backend:
+  replicaCount: 3
+  resources:
+    requests:
+      cpu: 200m
+      memory: 192Mi
+    limits:
+      memory: 512Mi
+frontend:
+  replicaCount: 3
+postgresql:
+  # Prefer a managed database (RDS) in production: set enabled=false and externalDatabase.host
+  storage: 10Gi
+  storageClass: gp3
+ingress:
+  host: pantrypal.example.com
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
