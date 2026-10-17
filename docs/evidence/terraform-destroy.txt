@@ -1,0 +1,714 @@
+data.aws_iam_policy_document.ec2_assume: Reading...
+data.aws_iam_policy_document.eks_assume: Reading...
+aws_vpc.main: Refreshing state... [id=vpc-24e58238ece65d4c7]
+aws_eip.nat[0]: Refreshing state... [id=eipalloc-5c4041a0ab744176a]
+data.aws_iam_policy_document.ec2_assume: Read complete after 0s [id=2851119427]
+data.aws_iam_policy_document.eks_assume: Read complete after 0s [id=3552664922]
+aws_iam_role.cluster: Refreshing state... [id=pantrypal-dev-eks-cluster-role]
+aws_iam_role.node: Refreshing state... [id=pantrypal-dev-eks-node-role]
+aws_iam_role_policy_attachment.cluster: Refreshing state... [id=pantrypal-dev-eks-cluster-role/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy]
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"]: Refreshing state... [id=pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]: Refreshing state... [id=pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+aws_internet_gateway.main: Refreshing state... [id=igw-e38a181c8b5aa4486]
+aws_route_table.public: Refreshing state... [id=rtb-4f83c6dd59f38de73]
+aws_route_table.private: Refreshing state... [id=rtb-2dbbe885ff4b1319b]
+aws_subnet.private[1]: Refreshing state... [id=subnet-45adcf924a59c66e5]
+aws_subnet.public[0]: Refreshing state... [id=subnet-cbc8810d82725f601]
+aws_subnet.private[0]: Refreshing state... [id=subnet-bead4c10964c93f25]
+aws_subnet.public[1]: Refreshing state... [id=subnet-0af776629b1a7a006]
+aws_security_group.cluster: Refreshing state... [id=sg-12b728966d7f280c2]
+aws_nat_gateway.main[0]: Refreshing state... [id=nat-39b59f2b4ae6c79ee]
+aws_route_table_association.public[0]: Refreshing state... [id=rtbassoc-9453d9cccbc8993c3]
+aws_route_table_association.public[1]: Refreshing state... [id=rtbassoc-0458e2fe19a0036cb]
+aws_route.public_internet: Refreshing state... [id=r-rtb-4f83c6dd59f38de731080289494]
+aws_route_table_association.private[0]: Refreshing state... [id=rtbassoc-ceb1893991d768e59]
+aws_route_table_association.private[1]: Refreshing state... [id=rtbassoc-ceaa538ea0acc05e3]
+aws_eks_cluster.main: Refreshing state... [id=pantrypal-dev]
+aws_route.private_nat[0]: Refreshing state... [id=r-rtb-2dbbe885ff4b1319b1080289494]
+aws_eks_node_group.default: Refreshing state... [id=pantrypal-dev:pantrypal-dev-default]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_eip.nat[0] will be destroyed
+  - resource "aws_eip" "nat" {
+      - allocation_id            = "eipalloc-5c4041a0ab744176a" -> null
+      - arn                      = "arn:aws:ec2:us-east-1::elastic-ip/eipalloc-5c4041a0ab744176a" -> null
+      - association_id           = "eipassoc-aee507fec546e5579" -> null
+      - domain                   = "vpc" -> null
+      - id                       = "eipalloc-5c4041a0ab744176a" -> null
+      - network_interface        = "eni-2207c74ca2c98586b" -> null
+      - private_dns              = "ip-10-109-153-132.ec2.internal" -> null
+      - private_ip               = "10.109.153.132" -> null
+      - public_dns               = "ec2-127-122-211-40.compute-1.amazonaws.com" -> null
+      - public_ip                = "127.122.211.40" -> null
+      - region                   = "us-east-1" -> null
+      - tags                     = {
+          - "Name" = "pantrypal-dev-nat-eip"
+        } -> null
+      - tags_all                 = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Name"        = "pantrypal-dev-nat-eip"
+          - "Project"     = "pantrypal"
+        } -> null
+        # (8 unchanged attributes hidden)
+    }
+
+  # aws_eks_cluster.main will be destroyed
+  - resource "aws_eks_cluster" "main" {
+      - arn                           = "arn:aws:eks:us-east-1:123456789012:cluster/pantrypal-dev" -> null
+      - bootstrap_self_managed_addons = true -> null
+      - certificate_authority         = [
+          - {
+              - data = "tEq4Cx9xqWcmJhvE1nE9bXos1wdvR6NIZr84AFAHjml5n7KKFYBfoOkvQigOI7hoxWeHCKXIXfwGf4ipkFYqheiW1uOKApIdSo6EOJ4ppTzTC59PAzgSHJJlXmJ8yuGmdGCoNpOb0adBqcZ8KzfyGSJXw2tr3XJKxAbFo4155fYBJwtImVqv7n9XOtPTjIuMokBGjKzAYspATqRhSmeyIVusQHar1bXfi9DAfefUBA4awQOPodcrvli1FL0ZtMz20eStiJL8vPuM6qPtmANgKgLEAwhvqnoIQ0AoQddgk6c9hcyQojoa2Gso8ZHCvNaHrKPnobpENC7MsNFUxiMjDgTUE6ogLublu8BJU58uW2qwHu7T5SyVmjy9HRU0iaW1dL7HA0FE0QoTgr3SqnEldTzwPHWzLFvjjKkyUGdowvfoLZcFEkwuzdepoqRykMrvY2BVjZd3WAOAjQHNRoYC01z8Y1BJCT094xzMAYUL6STs9oxGYCQDBVfjQBuubmGQsncP8j1eEKHjP0OBXaBczFd6Lk3Gh8CUSLiv2qjyix4S2UHQANxpeLJr6AZisOq6N7vrULN4BE9JctZDmkEq6wWN1Ib7wQOQSLW7OhZjjxDclDOSgbMrZBOvIChFFxPmRTmvQZxddFj1Mc6lJk9B1K48bU6ia8lrjKkQlw1YCHiHu75omVxUW2BMZNGMg2qrIYZOYRsjT63iOX1A0oWTuKVGdZX8PlkOcFR7ZNm1y44lSLwPQRPyXOMTC4NSClxZzF8W6XV86Hwzjqu6ES3hmkvBXhWPb8OAkZjArYe4U31xgTlLtWQaL4tqvHUiA9kSPVpKJuQdL3jsMuMHTrSNePYSaHKv1GY2Z5N3qJYO7bl3ELm2nLbBzTnTPfIBjXJs5dLLotkkwg6dz3JsurcDqBpkDdzWCfYQbft5sK5F332c4TIZwC5Em0jAwhV1zNaLRpoicaljtyAxl5qoWDZT2cu0KX4Mn2dpt9EzpnwNHXmMpTpo2k2u33o7Wib2xVemmULiHEY2ewFDcmqG9vsEYbLjuKrkr9OkuHzgabh03CXIElW63f42Y8OmaSQXk0c11DSgAy7vrFkiUFYMY9vANST1PY60zYorg5vhQNsLFSBSIvEijIn4DqJDD9bOiEHDkyWcQuvoah4TA2o4IWFte1mVg1R9FNcH6nh44xT9UeYWXcxhHkgMpUcMe7YWLK6yjHdltpy61U3UCktqd51JDtPFgXahmv1lK2XFxolR2DW2E919RzpRhADhJPDnBUvXtX3BkSeIa02QYVkq59ubtkmnXJLTPq6p0YlVyL4KgWMjlHfXHejcMx94OHr6wcyWScKlVIH09PcAMYx2CO58eOCRtyA0SxudWjYTBbs6w3Pv5tCx371hfPCp"
+            },
+        ] -> null
+      - created_at                    = "2026-10-17T07:12:57Z" -> null
+      - deletion_protection           = false -> null
+      - enabled_cluster_log_types     = [] -> null
+      - endpoint                      = "https://uUdVbtpcvEElHBUp3T7S.N0Z.us-east-1.eks.amazonaws.com/" -> null
+      - id                            = "pantrypal-dev" -> null
+      - identity                      = [
+          - {
+              - oidc = [
+                  - {
+                      - issuer = "https://oidc.eks.us-east-1.amazonaws.com/id/i2Zl2OC9bx"
+                    },
+                ]
+            },
+        ] -> null
+      - name                          = "pantrypal-dev" -> null
+      - platform_version              = "eks.4" -> null
+      - region                        = "us-east-1" -> null
+      - role_arn                      = "arn:aws:iam::123456789012:role/pantrypal-dev-eks-cluster-role" -> null
+      - status                        = "ACTIVE" -> null
+      - tags                          = {} -> null
+      - tags_all                      = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Project"     = "pantrypal"
+        } -> null
+      - version                       = "1.34" -> null
+
+      - access_config {
+          - authentication_mode                         = "API" -> null
+          - bootstrap_cluster_creator_admin_permissions = true -> null
+        }
+
+      - kubernetes_network_config {
+            # (3 unchanged attributes hidden)
+
+          - elastic_load_balancing {
+              - enabled = false -> null
+            }
+        }
+
+      - vpc_config {
+          - endpoint_private_access   = true -> null
+          - endpoint_public_access    = true -> null
+          - public_access_cidrs       = [] -> null
+          - security_group_ids        = [
+              - "sg-12b728966d7f280c2",
+            ] -> null
+          - subnet_ids                = [
+              - "subnet-0af776629b1a7a006",
+              - "subnet-45adcf924a59c66e5",
+              - "subnet-bead4c10964c93f25",
+              - "subnet-cbc8810d82725f601",
+            ] -> null
+            # (3 unchanged attributes hidden)
+        }
+    }
+
+  # aws_eks_node_group.default will be destroyed
+  - resource "aws_eks_node_group" "default" {
+      - ami_type               = "AL2_x86_64" -> null
+      - arn                    = "arn:aws:eks:us-east-1:123456789012:nodegroup/pantrypal-dev/pantrypal-dev-default/541a9280-e469-49a3-b6f9-311e9f3c13e3" -> null
+      - capacity_type          = "ON_DEMAND" -> null
+      - cluster_name           = "pantrypal-dev" -> null
+      - disk_size              = 20 -> null
+      - id                     = "pantrypal-dev:pantrypal-dev-default" -> null
+      - instance_types         = [
+          - "t3.medium",
+        ] -> null
+      - labels                 = {
+          - "role" = "general"
+        } -> null
+      - node_group_name        = "pantrypal-dev-default" -> null
+      - node_role_arn          = "arn:aws:iam::123456789012:role/pantrypal-dev-eks-node-role" -> null
+      - region                 = "us-east-1" -> null
+      - release_version        = "1.19.8-20210414" -> null
+      - resources              = [
+          - {
+              - autoscaling_groups              = [
+                  - {
+                      - name = "eks-541a9280-e469-49a3-b6f9-311e9f3c13e3"
+                    },
+                ]
+              - remote_access_security_group_id = "sg-z9xkcihbsvzpf7fty"
+            },
+        ] -> null
+      - status                 = "ACTIVE" -> null
+      - subnet_ids             = [
+          - "subnet-45adcf924a59c66e5",
+          - "subnet-bead4c10964c93f25",
+        ] -> null
+      - tags                   = {} -> null
+      - tags_all               = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Project"     = "pantrypal"
+        } -> null
+      - version                = "1.19" -> null
+        # (1 unchanged attribute hidden)
+
+      - remote_access {
+          - ec2_ssh_key               = "eksKeypair" -> null
+          - source_security_group_ids = [] -> null
+        }
+
+      - scaling_config {
+          - desired_size = 2 -> null
+          - max_size     = 3 -> null
+          - min_size     = 1 -> null
+        }
+    }
+
+  # aws_iam_role.cluster will be destroyed
+  - resource "aws_iam_role" "cluster" {
+      - arn                   = "arn:aws:iam::123456789012:role/pantrypal-dev-eks-cluster-role" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "eks.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-10-17T07:12:47Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pantrypal-dev-eks-cluster-role" -> null
+      - managed_policy_arns   = [
+          - "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pantrypal-dev-eks-cluster-role" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Project"     = "pantrypal"
+        } -> null
+      - unique_id             = "AROARZPUZDIKHN7HSH3I6" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # aws_iam_role.node will be destroyed
+  - resource "aws_iam_role" "node" {
+      - arn                   = "arn:aws:iam::123456789012:role/pantrypal-dev-eks-node-role" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "ec2.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-10-17T07:12:47Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pantrypal-dev-eks-node-role" -> null
+      - managed_policy_arns   = [
+          - "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+          - "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+          - "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pantrypal-dev-eks-node-role" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Project"     = "pantrypal"
+        } -> null
+      - unique_id             = "AROARZPUZDIKCB4ZXOVEO" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # aws_iam_role_policy_attachment.cluster will be destroyed
+  - resource "aws_iam_role_policy_attachment" "cluster" {
+      - id         = "pantrypal-dev-eks-cluster-role/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy" -> null
+      - role       = "pantrypal-dev-eks-cluster-role" -> null
+    }
+
+  # aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "node" {
+      - id         = "pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" -> null
+      - role       = "pantrypal-dev-eks-node-role" -> null
+    }
+
+  # aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "node" {
+      - id         = "pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy" -> null
+      - role       = "pantrypal-dev-eks-node-role" -> null
+    }
+
+  # aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "node" {
+      - id         = "pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy" -> null
+      - role       = "pantrypal-dev-eks-node-role" -> null
+    }
+
+  # aws_internet_gateway.main will be destroyed
+  - resource "aws_internet_gateway" "main" {
+      - arn      = "arn:aws:ec2:us-east-1:123456789012:internet-gateway/igw-e38a181c8b5aa4486" -> null
+      - id       = "igw-e38a181c8b5aa4486" -> null
+      - owner_id = "123456789012" -> null
+      - region   = "us-east-1" -> null
+      - tags     = {
+          - "Name" = "pantrypal-dev-igw"
+        } -> null
+      - tags_all = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Name"        = "pantrypal-dev-igw"
+          - "Project"     = "pantrypal"
+        } -> null
+      - vpc_id   = "vpc-24e58238ece65d4c7" -> null
+    }
+
+  # aws_nat_gateway.main[0] will be destroyed
+  - resource "aws_nat_gateway" "main" {
+      - allocation_id                  = "eipalloc-5c4041a0ab744176a" -> null
+      - connectivity_type              = "public" -> null
+      - id                             = "nat-39b59f2b4ae6c79ee" -> null
+      - region                         = "us-east-1" -> null
+      - regional_nat_gateway_address   = [] -> null
+      - secondary_allocation_ids       = [] -> null
+      - secondary_private_ip_addresses = [] -> null
+      - subnet_id                      = "subnet-cbc8810d82725f601" -> null
+      - tags                           = {
+          - "Name" = "pantrypal-dev-nat"
+        } -> null
+      - tags_all                       = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Name"        = "pantrypal-dev-nat"
+          - "Project"     = "pantrypal"
+        } -> null
+      - vpc_id                         = "vpc-24e58238ece65d4c7" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route.private_nat[0] will be destroyed
+  - resource "aws_route" "private_nat" {
+      - destination_cidr_block      = "0.0.0.0/0" -> null
+      - id                          = "r-rtb-2dbbe885ff4b1319b1080289494" -> null
+      - nat_gateway_id              = "nat-39b59f2b4ae6c79ee" -> null
+      - origin                      = "CreateRoute" -> null
+      - region                      = "us-east-1" -> null
+      - route_table_id              = "rtb-2dbbe885ff4b1319b" -> null
+      - state                       = "active" -> null
+        # (14 unchanged attributes hidden)
+    }
+
+  # aws_route.public_internet will be destroyed
+  - resource "aws_route" "public_internet" {
+      - destination_cidr_block      = "0.0.0.0/0" -> null
+      - gateway_id                  = "igw-e38a181c8b5aa4486" -> null
+      - id                          = "r-rtb-4f83c6dd59f38de731080289494" -> null
+      - origin                      = "CreateRoute" -> null
+      - region                      = "us-east-1" -> null
+      - route_table_id              = "rtb-4f83c6dd59f38de73" -> null
+      - state                       = "active" -> null
+        # (14 unchanged attributes hidden)
+    }
+
+  # aws_route_table.private will be destroyed
+  - resource "aws_route_table" "private" {
+      - arn              = "arn:aws:ec2:us-east-1:123456789012:route-table/rtb-2dbbe885ff4b1319b" -> null
+      - id               = "rtb-2dbbe885ff4b1319b" -> null
+      - owner_id         = "123456789012" -> null
+      - propagating_vgws = [] -> null
+      - region           = "us-east-1" -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - nat_gateway_id             = "nat-39b59f2b4ae6c79ee"
+                # (12 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Name" = "pantrypal-dev-private-rt"
+        } -> null
+      - tags_all         = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Name"        = "pantrypal-dev-private-rt"
+          - "Project"     = "pantrypal"
+        } -> null
+      - vpc_id           = "vpc-24e58238ece65d4c7" -> null
+    }
+
+  # aws_route_table.public will be destroyed
+  - resource "aws_route_table" "public" {
+      - arn              = "arn:aws:ec2:us-east-1:123456789012:route-table/rtb-4f83c6dd59f38de73" -> null
+      - id               = "rtb-4f83c6dd59f38de73" -> null
+      - owner_id         = "123456789012" -> null
+      - propagating_vgws = [] -> null
+      - region           = "us-east-1" -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - gateway_id                 = "igw-e38a181c8b5aa4486"
+                # (12 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Name" = "pantrypal-dev-public-rt"
+        } -> null
+      - tags_all         = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Name"        = "pantrypal-dev-public-rt"
+          - "Project"     = "pantrypal"
+        } -> null
+      - vpc_id           = "vpc-24e58238ece65d4c7" -> null
+    }
+
+  # aws_route_table_association.private[0] will be destroyed
+  - resource "aws_route_table_association" "private" {
+      - id             = "rtbassoc-ceb1893991d768e59" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-2dbbe885ff4b1319b" -> null
+      - subnet_id      = "subnet-bead4c10964c93f25" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.private[1] will be destroyed
+  - resource "aws_route_table_association" "private" {
+      - id             = "rtbassoc-ceaa538ea0acc05e3" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-2dbbe885ff4b1319b" -> null
+      - subnet_id      = "subnet-45adcf924a59c66e5" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.public[0] will be destroyed
+  - resource "aws_route_table_association" "public" {
+      - id             = "rtbassoc-9453d9cccbc8993c3" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-4f83c6dd59f38de73" -> null
+      - subnet_id      = "subnet-cbc8810d82725f601" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.public[1] will be destroyed
+  - resource "aws_route_table_association" "public" {
+      - id             = "rtbassoc-0458e2fe19a0036cb" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-4f83c6dd59f38de73" -> null
+      - subnet_id      = "subnet-0af776629b1a7a006" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_security_group.cluster will be destroyed
+  - resource "aws_security_group" "cluster" {
+      - arn                    = "arn:aws:ec2:us-east-1:123456789012:security-group/sg-12b728966d7f280c2" -> null
+      - description            = "Additional security group for the EKS control plane" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 0
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - id                     = "sg-12b728966d7f280c2" -> null
+      - ingress                = [] -> null
+      - name                   = "pantrypal-dev-eks-cluster-sg" -> null
+      - owner_id               = "123456789012" -> null
+      - region                 = "us-east-1" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {
+          - "Name" = "pantrypal-dev-eks-cluster-sg"
+        } -> null
+      - tags_all               = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Name"        = "pantrypal-dev-eks-cluster-sg"
+          - "Project"     = "pantrypal"
+        } -> null
+      - vpc_id                 = "vpc-24e58238ece65d4c7" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_subnet.private[0] will be destroyed
+  - resource "aws_subnet" "private" {
+      - arn                                            = "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-bead4c10964c93f25" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1a" -> null
+      - availability_zone_id                           = "use1-az6" -> null
+      - cidr_block                                     = "10.20.128.0/20" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-bead4c10964c93f25" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "123456789012" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name"                                = "pantrypal-dev-private-us-east-1a"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/internal-elb"     = "1"
+        } -> null
+      - tags_all                                       = {
+          - "Environment"                         = "dev"
+          - "ManagedBy"                           = "terraform"
+          - "Name"                                = "pantrypal-dev-private-us-east-1a"
+          - "Project"                             = "pantrypal"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/internal-elb"     = "1"
+        } -> null
+      - vpc_id                                         = "vpc-24e58238ece65d4c7" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_subnet.private[1] will be destroyed
+  - resource "aws_subnet" "private" {
+      - arn                                            = "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-45adcf924a59c66e5" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1b" -> null
+      - availability_zone_id                           = "use1-az1" -> null
+      - cidr_block                                     = "10.20.144.0/20" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-45adcf924a59c66e5" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "123456789012" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name"                                = "pantrypal-dev-private-us-east-1b"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/internal-elb"     = "1"
+        } -> null
+      - tags_all                                       = {
+          - "Environment"                         = "dev"
+          - "ManagedBy"                           = "terraform"
+          - "Name"                                = "pantrypal-dev-private-us-east-1b"
+          - "Project"                             = "pantrypal"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/internal-elb"     = "1"
+        } -> null
+      - vpc_id                                         = "vpc-24e58238ece65d4c7" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_subnet.public[0] will be destroyed
+  - resource "aws_subnet" "public" {
+      - arn                                            = "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-cbc8810d82725f601" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1a" -> null
+      - availability_zone_id                           = "use1-az6" -> null
+      - cidr_block                                     = "10.20.0.0/20" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-cbc8810d82725f601" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "123456789012" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name"                                = "pantrypal-dev-public-us-east-1a"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/elb"              = "1"
+        } -> null
+      - tags_all                                       = {
+          - "Environment"                         = "dev"
+          - "ManagedBy"                           = "terraform"
+          - "Name"                                = "pantrypal-dev-public-us-east-1a"
+          - "Project"                             = "pantrypal"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/elb"              = "1"
+        } -> null
+      - vpc_id                                         = "vpc-24e58238ece65d4c7" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_subnet.public[1] will be destroyed
+  - resource "aws_subnet" "public" {
+      - arn                                            = "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-0af776629b1a7a006" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1b" -> null
+      - availability_zone_id                           = "use1-az1" -> null
+      - cidr_block                                     = "10.20.16.0/20" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-0af776629b1a7a006" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "123456789012" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name"                                = "pantrypal-dev-public-us-east-1b"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/elb"              = "1"
+        } -> null
+      - tags_all                                       = {
+          - "Environment"                         = "dev"
+          - "ManagedBy"                           = "terraform"
+          - "Name"                                = "pantrypal-dev-public-us-east-1b"
+          - "Project"                             = "pantrypal"
+          - "kubernetes.io/cluster/pantrypal-dev" = "shared"
+          - "kubernetes.io/role/elb"              = "1"
+        } -> null
+      - vpc_id                                         = "vpc-24e58238ece65d4c7" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_vpc.main will be destroyed
+  - resource "aws_vpc" "main" {
+      - arn                                  = "arn:aws:ec2:us-east-1:123456789012:vpc/vpc-24e58238ece65d4c7" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.20.0.0/16" -> null
+      - default_network_acl_id               = "acl-3e292fd58f6b8425a" -> null
+      - default_route_table_id               = "rtb-f92e33ba7c7a3a729" -> null
+      - default_security_group_id            = "sg-59fa574a404e6ab0b" -> null
+      - dhcp_options_id                      = "default" -> null
+      - enable_dns_hostnames                 = true -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-24e58238ece65d4c7" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-f92e33ba7c7a3a729" -> null
+      - owner_id                             = "123456789012" -> null
+      - region                               = "us-east-1" -> null
+      - tags                                 = {
+          - "Name" = "pantrypal-dev-vpc"
+        } -> null
+      - tags_all                             = {
+          - "Environment" = "dev"
+          - "ManagedBy"   = "terraform"
+          - "Name"        = "pantrypal-dev-vpc"
+          - "Project"     = "pantrypal"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 0 to change, 25 to destroy.
+
+Changes to Outputs:
+  - configure_kubectl    = "aws eks update-kubeconfig --region us-east-1 --name pantrypal-dev" -> null
+  - eks_cluster_endpoint = "https://uUdVbtpcvEElHBUp3T7S.N0Z.us-east-1.eks.amazonaws.com/" -> null
+  - eks_cluster_name     = "pantrypal-dev" -> null
+  - eks_cluster_status   = "ACTIVE" -> null
+  - eks_node_group       = "pantrypal-dev-default" -> null
+  - private_subnet_ids   = [
+      - "subnet-bead4c10964c93f25",
+      - "subnet-45adcf924a59c66e5",
+    ] -> null
+  - public_subnet_ids    = [
+      - "subnet-cbc8810d82725f601",
+      - "subnet-0af776629b1a7a006",
+    ] -> null
+  - vpc_id               = "vpc-24e58238ece65d4c7" -> null
+aws_route_table_association.public[0]: Destroying... [id=rtbassoc-9453d9cccbc8993c3]
+aws_route_table_association.public[1]: Destroying... [id=rtbassoc-0458e2fe19a0036cb]
+aws_route_table_association.private[0]: Destroying... [id=rtbassoc-ceb1893991d768e59]
+aws_route_table_association.private[1]: Destroying... [id=rtbassoc-ceaa538ea0acc05e3]
+aws_route.public_internet: Destroying... [id=r-rtb-4f83c6dd59f38de731080289494]
+aws_route.private_nat[0]: Destroying... [id=r-rtb-2dbbe885ff4b1319b1080289494]
+aws_eks_node_group.default: Destroying... [id=pantrypal-dev:pantrypal-dev-default]
+aws_route_table_association.public[0]: Destruction complete after 0s
+aws_route_table_association.public[1]: Destruction complete after 0s
+aws_route_table_association.private[0]: Destruction complete after 0s
+aws_route_table_association.private[1]: Destruction complete after 0s
+aws_eks_node_group.default: Destruction complete after 0s
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"]: Destroying... [id=pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]: Destroying... [id=pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]: Destroying... [id=pantrypal-dev-eks-node-role/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+aws_eks_cluster.main: Destroying... [id=pantrypal-dev]
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"]: Destruction complete after 0s
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"]: Destruction complete after 0s
+aws_iam_role_policy_attachment.node["arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"]: Destruction complete after 0s
+aws_iam_role.node: Destroying... [id=pantrypal-dev-eks-node-role]
+aws_iam_role.node: Destruction complete after 0s
+aws_route.public_internet: Destruction complete after 0s
+aws_route.private_nat[0]: Destruction complete after 0s
+aws_route_table.public: Destroying... [id=rtb-4f83c6dd59f38de73]
+aws_route_table.private: Destroying... [id=rtb-2dbbe885ff4b1319b]
+aws_nat_gateway.main[0]: Destroying... [id=nat-39b59f2b4ae6c79ee]
+aws_route_table.public: Destruction complete after 1s
+aws_route_table.private: Destruction complete after 1s
+aws_eks_cluster.main: Still destroying... [id=pantrypal-dev, 00m10s elapsed]
+aws_nat_gateway.main[0]: Still destroying... [id=nat-39b59f2b4ae6c79ee, 00m10s elapsed]
+aws_eks_cluster.main: Still destroying... [id=pantrypal-dev, 00m20s elapsed]
+aws_nat_gateway.main[0]: Still destroying... [id=nat-39b59f2b4ae6c79ee, 00m20s elapsed]
+aws_nat_gateway.main[0]: Destruction complete after 21s
+aws_internet_gateway.main: Destroying... [id=igw-e38a181c8b5aa4486]
+aws_eip.nat[0]: Destroying... [id=eipalloc-5c4041a0ab744176a]
+aws_eip.nat[0]: Destruction complete after 0s
+aws_internet_gateway.main: Destruction complete after 0s
+aws_eks_cluster.main: Still destroying... [id=pantrypal-dev, 00m30s elapsed]
+aws_eks_cluster.main: Destruction complete after 36s
+aws_subnet.private[1]: Destroying... [id=subnet-45adcf924a59c66e5]
+aws_security_group.cluster: Destroying... [id=sg-12b728966d7f280c2]
+aws_subnet.public[0]: Destroying... [id=subnet-cbc8810d82725f601]
+aws_subnet.private[0]: Destroying... [id=subnet-bead4c10964c93f25]
+aws_subnet.public[1]: Destroying... [id=subnet-0af776629b1a7a006]
+aws_iam_role_policy_attachment.cluster: Destroying... [id=pantrypal-dev-eks-cluster-role/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy]
+aws_iam_role_policy_attachment.cluster: Destruction complete after 0s
+aws_iam_role.cluster: Destroying... [id=pantrypal-dev-eks-cluster-role]
+aws_subnet.private[1]: Destruction complete after 0s
+aws_subnet.private[0]: Destruction complete after 1s
+aws_subnet.public[0]: Destruction complete after 1s
+aws_security_group.cluster: Destruction complete after 1s
+aws_subnet.public[1]: Destruction complete after 1s
+aws_iam_role.cluster: Destruction complete after 1s
+aws_vpc.main: Destroying... [id=vpc-24e58238ece65d4c7]
+aws_vpc.main: Destruction complete after 0s
+
+Destroy complete! Resources: 25 destroyed.
