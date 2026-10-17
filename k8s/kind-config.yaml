@@ -1,0 +1,16 @@
+# Local Kubernetes cluster for PantryPal (stands in for EKS during development).
+# Host ports 80/443 are forwarded to the Traefik ingress controller's NodePorts.
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: pantrypal
+nodes:
+  - role: control-plane
+    labels:
+      ingress-ready: "true"
+    extraPortMappings:
+      - containerPort: 30080
+        hostPort: 80
+        protocol: TCP
+      - containerPort: 30443
+        hostPort: 443
+        protocol: TCP
