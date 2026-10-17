@@ -124,7 +124,7 @@ export default function App() {
           <img src="/favicon.svg" alt="" width="36" height="36" />
           <div>
             <h1>PantryPal</h1>
-            <p>Know what's in your kitchen before it goes off.</p>
+            <p>Track it. Eat it. Waste less.</p>
           </div>
         </div>
         {version && <span className="version" title="Deployed build">build {version.slice(0, 7)}</span>}
