@@ -2,7 +2,10 @@ from datetime import date, datetime
 
 from pydantic import BaseModel, ConfigDict, Field
 
-CATEGORIES = ["Produce", "Dairy", "Meat", "Bakery", "Grains", "Canned", "Frozen", "Spices", "Snacks", "Beverages", "Other"]
+CATEGORIES = [
+    "Produce", "Dairy", "Meat", "Bakery", "Grains", "Canned",
+    "Frozen", "Spices", "Snacks", "Beverages", "Other",
+]
 
 
 class ItemBase(BaseModel):

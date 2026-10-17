@@ -1,0 +1,12 @@
+line-length = 120
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["B008"]  # FastAPI Depends() in defaults is idiomatic
+
+[lint.per-file-ignores]
+"alembic/*" = ["E501"]
+
+[lint.isort]
+known-third-party = ["alembic"]
