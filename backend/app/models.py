@@ -11,7 +11,7 @@ class PantryItem(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     name: Mapped[str] = mapped_column(String(120), nullable=False)
-    category: Mapped[str] = mapped_column(String(50), nullable=False, default="Other")
+    category: Mapped[str] = mapped_column(String(50), nullable=False, default="Other", index=True)
     quantity: Mapped[float] = mapped_column(Float, nullable=False, default=1)
     unit: Mapped[str] = mapped_column(String(20), nullable=False, default="pcs")
     expiry_date: Mapped[date | None] = mapped_column(Date, nullable=True)
