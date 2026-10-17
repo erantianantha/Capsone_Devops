@@ -1,0 +1,15 @@
+# Local AWS API emulator (moto) used in place of a real AWS account.
+# Supports the EC2/VPC, IAM, STS and EKS APIs that this Terraform code calls.
+# Dashboard of created resources: http://localhost:5050/moto-api/
+name: mock-aws
+
+services:
+  moto:
+    image: motoserver/moto:5.1.22
+    ports:
+      - "5050:5000"
+    environment:
+      MOTO_PORT: "5000"
+      # Load AWS-managed IAM policies (AmazonEKSClusterPolicy etc.) so they can be attached
+      MOTO_IAM_LOAD_MANAGED_POLICIES: "true"
+    restart: unless-stopped
