@@ -127,7 +127,7 @@ export default function App() {
             <p>Know what's in your kitchen before it goes off.</p>
           </div>
         </div>
-        {version && <span className="version">v{version.slice(0, 7)}</span>}
+        {version && <span className="version" title="Deployed build">build {version.slice(0, 7)}</span>}
       </header>
 
       {stats && (

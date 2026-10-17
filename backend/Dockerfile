@@ -5,7 +5,9 @@ WORKDIR /build
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt \
+ # pip is only needed to build the venv; drop it so its vendored libs don't ship
+ && pip uninstall -y pip
 
 # ---- runtime stage ----
 FROM python:3.12-slim
@@ -15,8 +17,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PATH="/opt/venv/bin:$PATH" \
     APP_VERSION=${APP_VERSION}
 
-# Remove the base image's pip/setuptools: not needed at runtime and a common CVE source
+# Remove the base image's pip/setuptools and bundled wheels: not needed at runtime and a common CVE source
 RUN pip uninstall -y pip setuptools wheel 2>/dev/null || true \
+ && rm -rf /usr/local/lib/python3.12/ensurepip/_bundled \
+ && apt-get update && apt-get upgrade -y --no-install-recommends && rm -rf /var/lib/apt/lists/* \
  && groupadd --system --gid 10001 app \
  && useradd --system --uid 10001 --gid app --no-create-home --shell /usr/sbin/nologin app
 

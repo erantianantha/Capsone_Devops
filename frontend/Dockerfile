@@ -10,6 +10,9 @@ RUN npm run build
 FROM nginxinc/nginx-unprivileged:1.29-alpine
 # nginx-unprivileged runs as uid 101 and listens on 8080 (no root needed)
 ENV BACKEND_URL=http://backend:8000
+# Pick up Alpine security patches released after the base image was built
+USER root
+RUN apk upgrade --no-cache
 COPY --chown=101:101 nginx/default.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build --chown=101:101 /app/dist /usr/share/nginx/html
 USER 101
