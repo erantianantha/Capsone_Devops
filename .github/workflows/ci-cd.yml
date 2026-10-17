@@ -159,13 +159,82 @@ jobs:
         if: github.event_name != 'pull_request'
         run: docker push "${{ steps.meta.outputs.image }}:${{ steps.meta.outputs.tag }}"
 
-  # ------------------------------------------------------------- deploy
-  # Deploys to the Kubernetes cluster via a self-hosted runner that has
-  # kubectl/helm access (the local kind cluster). Enable by setting the
-  # repository variable DEPLOY_ENABLED=true and registering a runner.
-  deploy:
-    name: Deploy to Kubernetes (Helm)
+  # ------------------------------------------------------- deploy (kind)
+  # Spins up a throwaway kind cluster on the runner, deploys the images that
+  # were just pushed (tagged with this commit SHA) via Helm + Ingress, and
+  # smoke-tests the running app. Proves every commit is deployable.
+  deploy-kind:
+    name: Deploy to kind cluster (Helm + smoke test)
     needs: image
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1
+        with:
+          cluster_name: pantrypal
+          config: k8s/kind-config.yaml
+
+      - name: Load SHA-tagged images from GHCR into kind
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          for c in backend frontend; do
+            img="ghcr.io/${owner}/pantrypal-${c}:${GITHUB_SHA}"
+            docker pull "$img"
+            kind load docker-image --name pantrypal "$img"
+          done
+
+      - name: Namespaces + Traefik ingress controller
+        run: |
+          kubectl apply -f k8s/namespace.yaml
+          helm repo add traefik https://traefik.github.io/charts
+          helm upgrade --install traefik traefik/traefik --version 42.0.0 \
+            -n ingress -f k8s/traefik-values.yaml --wait --timeout 5m
+
+      - name: helm upgrade --install pantrypal
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          helm upgrade --install pantrypal ./helm/pantrypal -n pantrypal \
+            -f helm/pantrypal/values-dev.yaml \
+            --set "backend.image.repository=ghcr.io/${owner}/pantrypal-backend" \
+            --set "frontend.image.repository=ghcr.io/${owner}/pantrypal-frontend" \
+            --set "backend.image.tag=${GITHUB_SHA}" \
+            --set "frontend.image.tag=${GITHUB_SHA}" \
+            --wait --timeout 5m
+
+      - name: Smoke test through the Ingress
+        run: |
+          base=http://pantrypal.localtest.me
+          for _ in $(seq 1 30); do curl -sf "$base/api/health" && break; sleep 2; done
+          echo
+          curl -sf "$base/api/health" | grep -q "${GITHUB_SHA}"   # new version is live
+          curl -sf -X POST "$base/api/items" -H 'content-type: application/json' \
+            -d '{"name":"CI smoke test","category":"Other","quantity":1,"unit":"pcs"}'
+          echo
+          curl -sf "$base/api/items" | grep -q "CI smoke test"
+          curl -sf "$base/" | grep -q "<title>PantryPal</title>"
+          echo "Smoke test passed for ${GITHUB_SHA}"
+
+      - name: Cluster state
+        if: always()
+        run: |
+          helm list -n pantrypal
+          kubectl get pods,svc,ingress -n pantrypal -o wide
+          kubectl get hpa,pdb -n pantrypal || true
+
+  # ------------------------------------------------- deploy (persistent)
+  # Optional: rolls the same SHA out to a long-lived cluster (the presenter's
+  # local kind cluster) through a self-hosted runner, for the live demo.
+  # Enable with repository variable DEPLOY_ENABLED=true + a registered runner.
+  deploy:
+    name: Deploy to persistent cluster (self-hosted, optional)
+    needs: deploy-kind
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.DEPLOY_ENABLED == 'true'
     runs-on: [self-hosted]
     environment: production
