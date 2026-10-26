@@ -10,10 +10,10 @@ AWS, Kubernetes with Helm, and Prometheus + Grafana monitoring.
 
 ![PantryPal running in Kubernetes behind the Ingress](docs/screenshots/m8-app-via-ingress.png)
 
-**Presentation:** [`PantryPal-Presentation.pptx`](PantryPal-Presentation.pptx) &nbsp;·&nbsp;
-**Live rollout recording:** [`docs/video/pantrypal-live-rollout.mp4`](docs/video/pantrypal-live-rollout.mp4) &nbsp;·&nbsp;
-**Video walkthrough (2½ min):** [`docs/video/pantrypal-walkthrough.mp4`](docs/video/pantrypal-walkthrough.mp4) &nbsp;·&nbsp;
-**Evidence index:** [`docs/submission.md`](docs/submission.md) &nbsp;·&nbsp;
+**Presentation:** [`demo/PantryPal-Presentation.pptx`](demo/PantryPal-Presentation.pptx) &nbsp;·&nbsp;
+**Live rollout recording:** [`demo/pantrypal-live-rollout.mp4`](demo/pantrypal-live-rollout.mp4) &nbsp;·&nbsp;
+**Video walkthrough (2½ min):** [`demo/pantrypal-walkthrough.mp4`](demo/pantrypal-walkthrough.mp4) &nbsp;·&nbsp;
+**Evidence index:** [`SUBMISSION.md`](SUBMISSION.md) &nbsp;·&nbsp;
 **Live demo script:** [`docs/demo.md`](docs/demo.md)
 
 ---
@@ -95,8 +95,7 @@ flowchart LR
 ├── monitoring/              prometheus-values.yaml, grafana-values.yaml, dashboards/pantrypal-api.json
 ├── scripts/                 setup-local-cluster.sh, generate-traffic.sh
 ├── docs/                    screenshots/, evidence/, security-scan.md, demo.md, submission.md
-├── docs/video/              pantrypal-live-rollout.mp4 (commit → pipeline → rollout), pantrypal-walkthrough.mp4
-└── PantryPal-Presentation.pptx
+└── demo/                    PantryPal-Presentation.pptx, pantrypal-live-rollout.mp4, pantrypal-walkthrough.mp4
 ```
 
 ---
@@ -473,7 +472,7 @@ change in commit `5381442` was pushed to `main`. GitHub Actions tested, built, s
 them to a fresh kind cluster, then rolled them out to the persistent cluster through a self-hosted runner. No manual
 steps were needed.
 
-▶ **Recording (64 s):** [`docs/video/pantrypal-live-rollout.mp4`](docs/video/pantrypal-live-rollout.mp4)
+▶ **Recording (64 s):** [`demo/pantrypal-live-rollout.mp4`](demo/pantrypal-live-rollout.mp4)
 
 The pipeline run with all six jobs green, including *Deploy to persistent cluster (self-hosted)*:
 
@@ -486,7 +485,7 @@ The pipeline run with all six jobs green, including *Deploy to persistent cluste
 Step-by-step instructions to repeat it live are in [docs/demo.md](docs/demo.md).
 
 A narrated walkthrough of the whole project (app → API → GitHub → CI/CD → GHCR → Trivy → Terraform →
-Kubernetes → Prometheus → Grafana) is in [`docs/video/pantrypal-walkthrough.mp4`](docs/video/pantrypal-walkthrough.mp4).
+Kubernetes → Prometheus → Grafana) is in [`demo/pantrypal-walkthrough.mp4`](demo/pantrypal-walkthrough.mp4).
 
 Cleanup:
 
